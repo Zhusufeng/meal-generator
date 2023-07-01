@@ -1,15 +1,15 @@
 export const BREAKFAST_ENTREES = [
-  "Soft boiled eggs x 2",
-  "Hard boiled eggs x 2",
-  "Scrambled eggs x 2",
-  "Fried egg (sunnyside up) x 1",
-  "Oatmeal, plain, 1 cup",
-  "Oatmeal, Asian style (savory), 1 cup",
+  "Soft boiled eggs (qty. 2)",
+  "Hard boiled eggs (qty. 2)",
+  "Scrambled eggs (qty. 2)",
+  "Fried egg (qty. 1)",
+  "Oatmeal, plain (1 cup)",
+  "Oatmeal, Asian style (1 cup)",
   "Peanut butter and jelly sandwich",
-  "Special K cereal, 1 cup, with milk",
+  "Special K cereal (1 cup)",
 ];
 
-export const BREAKFAST_SIDES = ["Toast, buttered, 1 slice", "Bacon"];
+export const BREAKFAST_SIDES = ["Toast, buttered (1 slice)", "Bacon"];
 
 export const LUNCH_ENTREES = [];
 
