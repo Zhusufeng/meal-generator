@@ -1,0 +1,17 @@
+{
+  "_id": "dish_id_1",
+  "name": "",
+  "description": "",
+  "imageLink": "",
+  "type": {
+    "entree": true,
+    "side": true,
+    "breakfast": true,
+    "lunch": false,
+    "dinner": false,
+    "snack": true
+  },
+  "createdAt": "2023-07-03",
+  "updatedAt": "2023-07-03",
+  "createdBy": "user_id_1"
+}
