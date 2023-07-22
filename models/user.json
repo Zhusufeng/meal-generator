@@ -4,6 +4,6 @@
   "lastName": "G",
   "email": "email@gmail.com",
   "color": "",
-  "userMeals": [],
+  "familyAdmin": true,
   "websiteAdmin": true
 }
