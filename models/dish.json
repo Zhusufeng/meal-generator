@@ -14,7 +14,7 @@
   "recipe": {
     "link": "https://www.google.com",
     "ingredientsText": "1 cup milk\n1 cup ice\n",
-    "instructions": ["1. Stir together milk and ice.", "2. Place in freezer."]
+    "instructions": ["Stir together milk and ice.", "Place in freezer."]
   },
   "createdAt": "2023-07-03",
   "updatedAt": "2023-07-03",

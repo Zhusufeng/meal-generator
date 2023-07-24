@@ -3,7 +3,5 @@
   "firstName": "Lisa",
   "lastName": "G",
   "email": "email@gmail.com",
-  "color": "",
-  "familyAdmin": true,
-  "websiteAdmin": true
+  "color": ""
 }
