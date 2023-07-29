@@ -23,6 +23,26 @@ export default async function handler(
         });
       }
       break;
+    case "POST":
+      try {
+        const { name, description, imageLink, type, recipe, userId } = req.body;
+        const dish = await Dish.create({
+          name,
+          description,
+          imageLink,
+          type,
+          recipe,
+          createdBy: userId,
+          updatedBy: userId,
+        });
+        res.status(201).json({ success: true, data: dish });
+      } catch (error) {
+        res.status(400).json({
+          success: false,
+          errorMessage: String(error),
+        });
+      }
+      break;
     default:
       const defaultErrorMessage = `Invalid method (${method}).`;
       res.status(400).json({
