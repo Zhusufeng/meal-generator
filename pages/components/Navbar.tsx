@@ -1,4 +1,5 @@
 import { Button, Layout } from "antd";
+import Link from "next/link";
 
 const NavBar = () => {
   return (
@@ -13,10 +14,18 @@ const NavBar = () => {
       <div style={{ display: "flex", columnGap: "40px" }}>
         <div>🍽️ Meal Planner</div>
         <div style={{ display: "flex", columnGap: "20px" }}>
-          <div>Meal Plan</div>
-          <div>Meal History</div>
-          <div>Dish Catalog</div>
-          <div>Family Members</div>
+          <div>
+            <Link href="/">Meal Plan</Link>
+          </div>
+          <div>
+            <Link href="/">Meal History</Link>
+          </div>
+          <div>
+            <Link href="/">Dish Catalog</Link>
+          </div>
+          <div>
+            <Link href="/">Family Members</Link>
+          </div>
         </div>
       </div>
       <div style={{ display: "flex", columnGap: "20px" }}>
