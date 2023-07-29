@@ -2,7 +2,7 @@ import type { MenuProps } from "antd";
 import { Button, Layout, Menu } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const items: MenuProps["items"] = [
   {
@@ -24,12 +24,8 @@ const items: MenuProps["items"] = [
 ];
 
 const NavBar = () => {
-  const [current, setCurrent] = useState("/plan");
   const router = useRouter();
-
-  useEffect(() => {
-    setCurrent(router.pathname);
-  }, [router]);
+  const [current, setCurrent] = useState(router.pathname);
 
   const onClick: MenuProps["onClick"] = e => {
     console.log("click ", e);
