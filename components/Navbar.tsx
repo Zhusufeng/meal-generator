@@ -1,29 +1,36 @@
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu } from "antd";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 const items: MenuProps["items"] = [
   {
-    label: <Link href="/">Meal Plan</Link>,
-    key: "mealPlan",
+    label: <Link href="/plan">Meal Plan</Link>,
+    key: "/plan",
   },
   {
-    label: <Link href="/">Meal History</Link>,
-    key: "mealHistory",
+    label: <Link href="/history">Meal History</Link>,
+    key: "/history",
   },
   {
-    label: <Link href="/">Dish Catalog</Link>,
-    key: "dishCatalog",
+    label: <Link href="/dish">Dish Catalog</Link>,
+    key: "/dish",
   },
   {
-    label: <Link href="/">Family</Link>,
-    key: "family",
+    label: <Link href="/family">Family</Link>,
+    key: "/family",
   },
 ];
 
 const NavBar = () => {
-  const [current, setCurrent] = useState("mealPlan");
+  const [current, setCurrent] = useState("/plan");
+  const router = useRouter();
+
+  useEffect(() => {
+    setCurrent(router.pathname);
+  }, [router]);
+
   const onClick: MenuProps["onClick"] = e => {
     console.log("click ", e);
     setCurrent(e.key);
