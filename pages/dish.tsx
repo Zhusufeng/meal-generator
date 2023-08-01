@@ -1,11 +1,15 @@
 import { Button, Table, notification } from "antd";
 import axios from "axios";
+import { useState } from "react";
 import useSWR from "swr";
+import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const {
     data: dishData,
     error: dishError,
@@ -46,7 +50,8 @@ const Dish: React.FC = () => {
   return (
     <Layout>
       {dishContextHolder}
-      <Button>Add Dish</Button>
+      <DishModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
+      <Button onClick={() => setIsModalOpen(true)}>Add Dish</Button>
       <Table
         dataSource={dishData?.data}
         columns={columns}
