@@ -2,13 +2,23 @@ import { Modal } from "antd";
 import DishForm from "../components/DishForm";
 
 type Props = {
-  modalTitle: string;
+  modalAction: string;
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 };
 
 const DishModal: React.FC<Props> = props => {
-  const { modalTitle, isModalOpen, setIsModalOpen } = props;
+  const { modalAction, isModalOpen, setIsModalOpen } = props;
+  let modalTitle = "";
+  switch (modalAction) {
+    case "ADD":
+      modalTitle = "Add Dish";
+      break;
+    case "EDIT":
+      modalTitle = "Edit Dish";
+    default:
+      modalTitle = null;
+  }
 
   return (
     <Modal
@@ -17,7 +27,7 @@ const DishModal: React.FC<Props> = props => {
       footer={null}
       onCancel={() => setIsModalOpen(false)}
     >
-      <DishForm setIsModalOpen={setIsModalOpen} />
+      <DishForm modalAction={modalAction} setIsModalOpen={setIsModalOpen} />
     </Modal>
   );
 };

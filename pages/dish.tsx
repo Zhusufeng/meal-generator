@@ -9,7 +9,7 @@ const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalTitle, setModalTitle] = useState(null);
+  const [modalAction, setModalAction] = useState(null);
 
   const {
     data: dishData,
@@ -20,12 +20,12 @@ const Dish: React.FC = () => {
 
   const addDish = () => {
     setIsModalOpen(true);
-    setModalTitle("Add Dish");
+    setModalAction("ADD");
   };
 
   const editDish = () => {
     setIsModalOpen(true);
-    setModalTitle("Edit Dish");
+    setModalAction("EDIT");
   };
 
   const columns = [
@@ -62,7 +62,7 @@ const Dish: React.FC = () => {
     <Layout>
       {dishContextHolder}
       <DishModal
-        modalTitle={modalTitle}
+        modalAction={modalAction}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
       />
