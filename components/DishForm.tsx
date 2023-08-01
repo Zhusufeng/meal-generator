@@ -1,8 +1,14 @@
 import { Button, Checkbox, Form, Input } from "antd";
 
-const DishForm: React.FC = () => {
+type Props = {
+  setIsModalOpen: (value: boolean) => void;
+};
+
+const DishForm: React.FC<Props> = props => {
+  const { setIsModalOpen } = props;
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    setIsModalOpen(false);
   };
 
   return (
