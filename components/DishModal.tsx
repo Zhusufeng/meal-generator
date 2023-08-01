@@ -2,15 +2,17 @@ import { Modal } from "antd";
 import DishForm from "../components/DishForm";
 
 type Props = {
+  modalTitle: string;
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
 };
 
 const DishModal: React.FC<Props> = props => {
-  const { isModalOpen, setIsModalOpen } = props;
+  const { modalTitle, isModalOpen, setIsModalOpen } = props;
+
   return (
     <Modal
-      title="Basic Modal"
+      title={modalTitle}
       open={isModalOpen}
       footer={null}
       onCancel={() => setIsModalOpen(false)}
