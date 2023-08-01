@@ -1,13 +1,24 @@
 import { Button, Checkbox, Form, Input } from "antd";
 
 type Props = {
+  modalAction: string;
   setIsModalOpen: (value: boolean) => void;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { setIsModalOpen } = props;
+  const { modalAction, setIsModalOpen } = props;
   const onFinish = (values: any) => {
     console.log("Success:", values);
+    // TODO Loading state
+    switch (modalAction) {
+      case "ADD":
+        // Call POST api
+        break;
+      case "EDIT":
+        // Call PUT api
+        break;
+      default:
+    }
     setIsModalOpen(false);
   };
 
