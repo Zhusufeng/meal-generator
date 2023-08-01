@@ -4,12 +4,14 @@ import { useState } from "react";
 import useSWR from "swr";
 import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
+import RecipeModal from "../components/RecipeModal";
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState(null);
+  // TODO Refactor to pass down ADD or EDIT object
 
   const {
     data: dishData,
@@ -37,7 +39,8 @@ const Dish: React.FC = () => {
     {
       title: "Recipe",
       key: "recipe",
-      render: (_, record) => <Button>View Recipe</Button>,
+      dataIndex: "_id",
+      render: (id, record) => <RecipeModal dishId={id} />,
     },
     {
       title: "Edit",
