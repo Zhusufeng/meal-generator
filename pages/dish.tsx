@@ -9,6 +9,7 @@ const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalTitle, setModalTitle] = useState(null);
 
   const {
     data: dishData,
@@ -16,6 +17,16 @@ const Dish: React.FC = () => {
     isLoading,
   } = useSWR("/api/dish", fetcher);
   console.log("dishData", dishData);
+
+  const addDish = () => {
+    setIsModalOpen(true);
+    setModalTitle("Add Dish");
+  };
+
+  const editDish = () => {
+    setIsModalOpen(true);
+    setModalTitle("Edit Dish");
+  };
 
   const columns = [
     {
@@ -31,7 +42,7 @@ const Dish: React.FC = () => {
     {
       title: "Edit",
       key: "edit",
-      render: (_, record) => <Button>Edit Dish</Button>,
+      render: (_, record) => <Button onClick={editDish}>Edit Dish</Button>,
     },
   ];
 
@@ -50,8 +61,12 @@ const Dish: React.FC = () => {
   return (
     <Layout>
       {dishContextHolder}
-      <DishModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} />
-      <Button onClick={() => setIsModalOpen(true)}>Add Dish</Button>
+      <DishModal
+        modalTitle={modalTitle}
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
+      <Button onClick={addDish}>Add Dish</Button>
       <Table
         dataSource={dishData?.data}
         columns={columns}
