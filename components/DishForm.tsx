@@ -5,24 +5,29 @@ import { mutate } from "swr";
 type Props = {
   modalAction: string;
   setIsModalOpen: (value: boolean) => void;
+  dishId: string | null;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen } = props;
+  const { modalAction, setIsModalOpen, dishId } = props;
+  // TODO Use real userId
+  const USER_ID = "64c4997d57bde9dc7ae69a0b";
   const onFinish = async (values: any) => {
     console.log("values:", values);
     // TODO Loading state
     switch (modalAction) {
       case "ADD":
-        // Call POST api - add userId
-        // const postPayload = { ...values, userId };
-        const postPayload = values;
+        const postPayload = { ...values, userId: USER_ID };
         await axios.post("/api/dish", postPayload);
         mutate("/api/dish");
         break;
       case "EDIT":
-        // TODO Need dish id and user id
-        axios.put("/api/dish", values);
+        const putPayload = {
+          ...values,
+          dishId,
+          userId: USER_ID,
+        };
+        axios.put("/api/dish", putPayload);
         break;
       default:
     }
