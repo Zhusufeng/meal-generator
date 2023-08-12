@@ -25,15 +25,22 @@ export default async function handler(
       break;
     case "POST":
       try {
-        const { name, description, imageLink, type, recipe, userId } = req.body;
+        const {
+          name,
+          description,
+          imageLink,
+          type,
+          recipe,
+          // userId // TODO
+        } = req.body;
         const dish = await Dish.create({
           name,
           description,
           imageLink,
           type,
           recipe,
-          createdBy: userId,
-          updatedBy: userId,
+          // createdBy: userId,
+          // updatedBy: userId,
         });
         res.status(201).json({ success: true, data: dish });
       } catch (error) {
@@ -45,8 +52,15 @@ export default async function handler(
       break;
     case "PUT":
       try {
-        const { dishId, name, description, imageLink, type, recipe, userId } =
-          req.body;
+        const {
+          dishId,
+          name,
+          description,
+          imageLink,
+          type,
+          recipe,
+          // userId // TODO
+        } = req.body;
         const dish = await Dish.updateOne(
           {
             _id: dishId,
@@ -57,7 +71,7 @@ export default async function handler(
             imageLink,
             type,
             recipe,
-            updatedBy: userId,
+            // updatedBy: userId,
           }
         );
         res.status(200).json({ success: true, data: dish });

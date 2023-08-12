@@ -1,4 +1,6 @@
 import { Button, Checkbox, Form, Input } from "antd";
+import axios from "axios";
+import { mutate } from "swr";
 
 type Props = {
   modalAction: string;
@@ -7,15 +9,20 @@ type Props = {
 
 const DishForm: React.FC<Props> = props => {
   const { modalAction, setIsModalOpen } = props;
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const onFinish = async (values: any) => {
+    console.log("values:", values);
     // TODO Loading state
     switch (modalAction) {
       case "ADD":
-        // Call POST api
+        // Call POST api - add userId
+        // const postPayload = { ...values, userId };
+        const postPayload = values;
+        await axios.post("/api/dish", postPayload);
+        mutate("/api/dish");
         break;
       case "EDIT":
-        // Call PUT api
+        // TODO Need dish id and user id
+        axios.put("/api/dish", values);
         break;
       default:
     }
