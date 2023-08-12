@@ -11,6 +11,7 @@ const fetcher = (url: string) => axios.get(url).then(res => res.data);
 const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAction, setModalAction] = useState(null);
+  const [dishId, setDishId] = useState(null);
   // TODO Refactor to pass down ADD or EDIT object
 
   const {
@@ -25,9 +26,10 @@ const Dish: React.FC = () => {
     setModalAction("ADD");
   };
 
-  const editDish = () => {
+  const editDish = dishId => {
     setIsModalOpen(true);
     setModalAction("EDIT");
+    setDishId(dishId);
   };
 
   const columns = [
@@ -40,12 +42,14 @@ const Dish: React.FC = () => {
       title: "Recipe",
       key: "recipe",
       dataIndex: "_id",
-      render: (id, record) => <RecipeModal dishId={id} />,
+      render: id => <RecipeModal dishId={id} />,
     },
     {
       title: "Edit",
       key: "edit",
-      render: (_, record) => <Button onClick={editDish}>Edit Dish</Button>,
+      render: (_, record) => (
+        <Button onClick={() => editDish(record.id)}>Edit Dish</Button>
+      ),
     },
   ];
 
@@ -68,9 +72,11 @@ const Dish: React.FC = () => {
         modalAction={modalAction}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+        dishId={dishId}
       />
       <Button onClick={addDish}>Add Dish</Button>
       <Table
+        rowKey="_id"
         dataSource={dishData?.data}
         columns={columns}
         loading={isLoading}
