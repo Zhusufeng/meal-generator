@@ -1,34 +1,51 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { mutate } from "swr";
+import { USER_ID } from "../lib/constants";
 
 type Props = {
   modalAction: string;
   setIsModalOpen: (value: boolean) => void;
-  dishId: string | null;
+  dish: Dish;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen, dishId } = props;
+  const { modalAction, setIsModalOpen, dish } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
-  // TODO Use real userId
-  const USER_ID = "64d8535357bde9dc7ae69a18";
+  useEffect(() => {
+    if (modalAction === "EDIT") {
+      // set fields
+    }
+  }, [dish, modalAction]);
+
   const onFinish = async (values: any) => {
     console.log("values:", values);
 
     setIsLoading(true);
     const payload = { ...values, userId: USER_ID };
+    // TODO Handle errors
     switch (modalAction) {
       case "ADD":
-        await axios.post("/api/dish", payload);
-        mutate("/api/dish");
-        break;
+        try {
+          await axios.post("/api/dish", payload);
+          mutate("/api/dish");
+          break;
+        } catch (error) {
+          console.log("error", error);
+          break;
+        }
       case "EDIT":
-        axios.put(`/api/dish/${dishId}`, payload);
-        break;
+        try {
+          axios.put(`/api/dish/${dish._id}`, payload);
+
+          break;
+        } catch (error) {
+          console.log("error", error);
+          break;
+        }
       default:
     }
 
