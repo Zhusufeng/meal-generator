@@ -15,19 +15,14 @@ const DishForm: React.FC<Props> = props => {
   const onFinish = async (values: any) => {
     console.log("values:", values);
     // TODO Loading state
+    const payload = { ...values, userId: USER_ID };
     switch (modalAction) {
       case "ADD":
-        const postPayload = { ...values, userId: USER_ID };
-        await axios.post("/api/dish", postPayload);
+        await axios.post("/api/dish", payload);
         mutate("/api/dish");
         break;
       case "EDIT":
-        const putPayload = {
-          ...values,
-          dishId,
-          userId: USER_ID,
-        };
-        axios.put("/api/dish", putPayload);
+        axios.put(`/api/dish/${dishId}`, payload);
         break;
       default:
     }
