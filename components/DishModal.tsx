@@ -25,6 +25,9 @@ const DishModal: React.FC<Props> = props => {
     if (modalAction === "EDIT" && dishId) {
       getDish().catch(error => console.log(error));
     }
+    return () => {
+      setDish(null);
+    };
   }, [dishId, modalAction, isModalOpen]);
 
   useEffect(() => {
