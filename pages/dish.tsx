@@ -5,6 +5,7 @@ import useSWR from "swr";
 import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
 import RecipeModal from "../components/RecipeModal";
+import { ADD, EDIT } from "../lib/dishHelpers";
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
@@ -12,24 +13,6 @@ const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [dishId, setDishId] = useState(null);
   const [dish, setDish] = useState(null);
-
-  const ADD = {
-    action: "ADD",
-    modalTitle: "Add Dish",
-    api: async payload => {
-      await axios.post("/api/dish", payload).catch(error => console.log(error));
-    },
-  };
-  const EDIT = {
-    action: "EDIT",
-    modalTitle: "Edit Dish",
-    api: async payload => {
-      await axios
-        .put(`/api/dish/${dishId}`, payload)
-        .catch(error => console.log(error));
-    },
-  };
-
   const [modalAction, setModalAction] = useState(ADD);
 
   useEffect(() => {

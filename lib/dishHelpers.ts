@@ -1,4 +1,16 @@
+import { addDish, editDish } from "./apiCalls";
 import { USER_ID } from "./constants";
+
+export const ADD = {
+  action: "ADD",
+  modalTitle: "Add Dish",
+  api: addDish,
+};
+export const EDIT = {
+  action: "EDIT",
+  modalTitle: "Edit Dish",
+  api: editDish,
+};
 
 export const formatDishFieldsValue = dish => {
   // Dish Types
