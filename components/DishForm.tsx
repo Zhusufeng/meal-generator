@@ -2,8 +2,7 @@ import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
-import { USER_ID } from "../lib/constants";
-import { formatDishFieldsValue } from "../lib/dishHelpers";
+import { formatDishFieldsValue, transformPayload } from "../lib/dishHelpers";
 
 type Props = {
   modalAction: string;
@@ -25,28 +24,6 @@ const DishForm: React.FC<Props> = props => {
       form.resetFields();
     };
   }, [dish, modalAction, form]);
-
-  const transformPayload = values => {
-    const dishType = values.dishType.reduce((acc, type) => {
-      return { ...acc, [type]: true };
-    }, {});
-    const mealType = values.mealType.reduce((acc, type) => {
-      return { ...acc, [type]: true };
-    }, {});
-    const recipeInstructions = values?.recipeInstructions?.split("\n");
-    const payload = {
-      userId: USER_ID,
-      name: values.name,
-      description: values.description,
-      type: { ...dishType, ...mealType },
-      recipe: {
-        link: values.recipeLink,
-        ingredientsText: values.recipeIngredients,
-        instructions: recipeInstructions,
-      },
-    };
-    return payload;
-  };
 
   const onFinish = async (values: any) => {
     console.log("values:", values);

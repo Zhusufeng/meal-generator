@@ -1,3 +1,5 @@
+import { USER_ID } from "./constants";
+
 export const formatDishFieldsValue = dish => {
   // Dish Types
   const entree = dish?.type?.entree ? "entree" : null;
@@ -23,4 +25,26 @@ export const formatDishFieldsValue = dish => {
   };
 
   return formattedDish;
+};
+
+export const transformPayload = values => {
+  const dishType = values.dishType.reduce((acc, type) => {
+    return { ...acc, [type]: true };
+  }, {});
+  const mealType = values.mealType.reduce((acc, type) => {
+    return { ...acc, [type]: true };
+  }, {});
+  const recipeInstructions = values?.recipeInstructions?.split("\n");
+  const payload = {
+    userId: USER_ID,
+    name: values.name,
+    description: values.description,
+    type: { ...dishType, ...mealType },
+    recipe: {
+      link: values.recipeLink,
+      ingredientsText: values.recipeIngredients,
+      instructions: recipeInstructions,
+    },
+  };
+  return payload;
 };
