@@ -7,7 +7,7 @@ import { USER_ID } from "../lib/constants";
 type Props = {
   modalAction: string;
   setIsModalOpen: (value: boolean) => void;
-  dish: Dish;
+  dish: Dish | null;
 };
 
 const DishForm: React.FC<Props> = props => {
@@ -16,10 +16,25 @@ const DishForm: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (modalAction === "EDIT") {
-      // set fields
+    if (dish && modalAction === "EDIT") {
+      // TODO refine
+      const recipeInstructions = dish?.recipe?.instructions.join("\n");
+
+      form.setFieldsValue({
+        name: dish?.name,
+        description: dish?.description,
+        imageLink: dish?.imageLink,
+        // dishType:
+        // mealType:
+        recipeLink: dish?.recipe?.link,
+        recipeIngredients: dish?.recipe?.ingredientsText,
+        recipeInstructions: recipeInstructions,
+      });
     }
-  }, [dish, modalAction]);
+    return () => {
+      form.resetFields();
+    };
+  }, [dish, modalAction, form]);
 
   const onFinish = async (values: any) => {
     console.log("values:", values);
