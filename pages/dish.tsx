@@ -23,9 +23,10 @@ const Dish: React.FC = () => {
   const addDish = () => {
     setIsModalOpen(true);
     setModalAction("ADD");
+    setDishId(null);
   };
 
-  const editDish = dishId => {
+  const editDish = (dishId: string) => {
     setIsModalOpen(true);
     setModalAction("EDIT");
     setDishId(dishId);
