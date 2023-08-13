@@ -25,7 +25,6 @@ export default async function handler(
     case "PUT":
       try {
         const { name, description, imageLink, type, recipe, userId } = req.body;
-        // TODO Process recipe correctly
         const dish = await Dish.updateOne(
           {
             _id: id,
