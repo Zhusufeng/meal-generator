@@ -1,11 +1,10 @@
 import { Button, Checkbox, Form, Input } from "antd";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
 import { formatDishFieldsValue, transformPayload } from "../lib/dishHelpers";
 
 type Props = {
-  modalAction: string;
+  modalAction: ModalAction;
   setIsModalOpen: (value: boolean) => void;
   dish: Dish | null;
 };
@@ -16,7 +15,7 @@ const DishForm: React.FC<Props> = props => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (dish && modalAction === "EDIT") {
+    if (dish && modalAction.action === "EDIT") {
       const formattedDish = formatDishFieldsValue(dish);
       form.setFieldsValue(formattedDish);
     }
@@ -32,19 +31,7 @@ const DishForm: React.FC<Props> = props => {
     const payload = transformPayload(values);
     console.log("payload", payload);
     // TODO Handle errors
-    switch (modalAction) {
-      case "ADD":
-        await axios
-          .post("/api/dish", payload)
-          .catch(error => console.log(error));
-        break;
-      case "EDIT":
-        await axios
-          .put(`/api/dish/${dish._id}`, payload)
-          .catch(error => console.log(error));
-        break;
-      default:
-    }
+    await modalAction.api(payload);
     mutate("/api/dish");
     setIsLoading(false);
     setIsModalOpen(false);
