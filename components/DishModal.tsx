@@ -13,6 +13,7 @@ type Props = {
 const DishModal: React.FC<Props> = props => {
   const { modalAction, isModalOpen, setIsModalOpen, dishId } = props;
   const [dish, setDish] = useState(null);
+  const [modalTitle, setModalTitle] = useState("Dish");
 
   useEffect(() => {
     const getDish = async () => {
@@ -26,16 +27,16 @@ const DishModal: React.FC<Props> = props => {
     }
   }, [dishId, modalAction, isModalOpen]);
 
-  let modalTitle = "";
-  switch (modalAction) {
-    case "ADD":
-      modalTitle = "Add Dish";
-      break;
-    case "EDIT":
-      modalTitle = "Edit Dish";
-    default:
-      modalTitle = null;
-  }
+  useEffect(() => {
+    switch (modalAction) {
+      case "ADD":
+        setModalTitle("Add Dish");
+        break;
+      case "EDIT":
+        setModalTitle("Edit Dish");
+      default:
+    }
+  }, [modalAction]);
 
   // TODO Show Loading
   // TODO Handle dishError
