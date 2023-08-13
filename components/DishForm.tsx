@@ -19,23 +19,19 @@ const DishForm: React.FC<Props> = props => {
     if (dish && modalAction === "EDIT") {
       // TODO refine
       const recipeInstructions = dish?.recipe?.instructions.join("\n");
-      console.log("dish.type", dish.type);
+      const entree = dish?.type?.entree ? "entree" : null;
+      const side = dish?.type?.side ? "side" : null;
+      const breakfast = dish?.type?.breakfast ? "breakfast" : null;
+      const lunch = dish?.type?.lunch ? "lunch" : null;
+      const dinner = dish?.type?.dinner ? "dinner" : null;
+      const snack = dish?.type?.snack ? "snack" : null;
+
       form.setFieldsValue({
         name: dish?.name,
         description: dish?.description,
         imageLink: dish?.imageLink,
-        // dishType: {
-        //   entree: dish?.type?.entree,
-        //   side: dish?.type?.side,
-        // },
-        entree: dish?.type?.entree,
-        side: dish?.type?.side,
-        // mealType: {
-        //   breakfast: dish?.type?.breakfast,
-        //   lunch: dish?.type?.lunch,
-        //   dinner: dish?.type?.dinner,
-        //   snack: dish?.type?.snack,
-        // },
+        dishType: [entree, side],
+        mealType: [breakfast, lunch, dinner, snack],
         recipeLink: dish?.recipe?.link,
         recipeIngredients: dish?.recipe?.ingredientsText,
         recipeInstructions: recipeInstructions,
