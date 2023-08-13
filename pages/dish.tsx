@@ -1,6 +1,6 @@
 import { Button, Table, notification } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
@@ -10,9 +10,42 @@ const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalAction, setModalAction] = useState(null);
   const [dishId, setDishId] = useState(null);
-  // TODO Refactor to pass down ADD or EDIT object
+  const [dish, setDish] = useState(null);
+
+  const ADD = {
+    action: "ADD",
+    modalTitle: "Add Dish",
+    api: async payload => {
+      await axios.post("/api/dish", payload).catch(error => console.log(error));
+    },
+  };
+  const EDIT = {
+    action: "EDIT",
+    modalTitle: "Edit Dish",
+    api: async payload => {
+      await axios
+        .put(`/api/dish/${dishId}`, payload)
+        .catch(error => console.log(error));
+    },
+  };
+
+  const [modalAction, setModalAction] = useState(ADD);
+
+  useEffect(() => {
+    const getDish = async () => {
+      const result = await axios.get(`/api/dish/${dishId}`);
+      setDish(result.data.data);
+    };
+
+    // TODO handle error
+    if (modalAction.action === "EDIT" && dishId) {
+      getDish().catch(error => console.log(error));
+    }
+    return () => {
+      setDish(null);
+    };
+  }, [dishId, modalAction]);
 
   const {
     data: dishes,
@@ -22,13 +55,13 @@ const Dish: React.FC = () => {
 
   const addDish = () => {
     setIsModalOpen(true);
-    setModalAction("ADD");
+    setModalAction(ADD);
     setDishId(null);
   };
 
   const editDish = (dishId: string) => {
     setIsModalOpen(true);
-    setModalAction("EDIT");
+    setModalAction(EDIT);
     setDishId(dishId);
   };
 
@@ -72,7 +105,7 @@ const Dish: React.FC = () => {
         modalAction={modalAction}
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
-        dishId={dishId}
+        dish={dish}
       />
       <Button onClick={addDish}>Add Dish</Button>
       <Table
