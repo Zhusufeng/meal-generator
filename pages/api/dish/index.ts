@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import dbConnect from "../../lib/dbConnect";
-import Dish from "../../models/dish.model";
+import dbConnect from "../../../lib/dbConnect";
+import Dish from "../../../models/dish.model";
 
 export default async function handler(
   req: NextApiRequest,
@@ -25,56 +25,17 @@ export default async function handler(
       break;
     case "POST":
       try {
-        const {
-          name,
-          description,
-          imageLink,
-          type,
-          recipe,
-          // userId // TODO
-        } = req.body;
+        const { name, description, imageLink, type, recipe, userId } = req.body;
         const dish = await Dish.create({
           name,
           description,
           imageLink,
           type,
           recipe,
-          // createdBy: userId,
-          // updatedBy: userId,
+          createdBy: userId,
+          updatedBy: userId,
         });
         res.status(201).json({ success: true, data: dish });
-      } catch (error) {
-        res.status(400).json({
-          success: false,
-          errorMessage: String(error),
-        });
-      }
-      break;
-    case "PUT":
-      try {
-        const {
-          dishId,
-          name,
-          description,
-          imageLink,
-          type,
-          recipe,
-          // userId // TODO
-        } = req.body;
-        const dish = await Dish.updateOne(
-          {
-            _id: dishId,
-          },
-          {
-            name,
-            description,
-            imageLink,
-            type,
-            recipe,
-            // updatedBy: userId,
-          }
-        );
-        res.status(200).json({ success: true, data: dish });
       } catch (error) {
         res.status(400).json({
           success: false,
