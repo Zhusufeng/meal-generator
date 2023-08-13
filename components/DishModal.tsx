@@ -17,7 +17,6 @@ const DishModal: React.FC<Props> = props => {
   useEffect(() => {
     const getDish = async () => {
       const result = await axios.get(`/api/dish/${dishId}`);
-      console.log("DishModal dish", result.data.data);
       setDish(result.data.data);
     };
 
@@ -37,7 +36,6 @@ const DishModal: React.FC<Props> = props => {
     default:
       modalTitle = null;
   }
-  console.log("DishModal dishId", dishId);
 
   // TODO Show Loading
   // TODO Handle dishError

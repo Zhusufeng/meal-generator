@@ -19,7 +19,6 @@ const Dish: React.FC = () => {
     error: dishesError,
     isLoading,
   } = useSWR("/api/dish", fetcher);
-  console.log("dishes", dishes);
 
   const addDish = () => {
     setIsModalOpen(true);
