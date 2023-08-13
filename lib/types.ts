@@ -28,5 +28,5 @@ type DishPayload = Pick<
 type ModalAction = {
   action: string;
   modalTitle: string;
-  api: (payload: DishPayload) => Promise<void>;
+  api: (payload: DishPayload, dishId: string | null) => Promise<void>;
 };
