@@ -1,6 +1,6 @@
 import { Modal } from "antd";
 import axios from "axios";
-import useSWR from "swr";
+import { useEffect, useState } from "react";
 import DishForm from "../components/DishForm";
 
 type Props = {
@@ -10,10 +10,26 @@ type Props = {
   dishId: string | null;
 };
 
-const fetcher = (url: string) => axios.get(url).then(res => res.data);
-
 const DishModal: React.FC<Props> = props => {
   const { modalAction, isModalOpen, setIsModalOpen, dishId } = props;
+  const [dish, setDish] = useState(null);
+
+  useEffect(() => {
+    const getDish = async () => {
+      const result = await axios.get(`/api/dish/${dishId}`);
+      console.log("DishModal dish", result.data.data);
+      setDish(result.data.data);
+    };
+
+    // TODO handle error
+    if (modalAction === "EDIT" && dishId) {
+      getDish().catch(error => console.log(error));
+    }
+    return () => {
+      setDish(null);
+    };
+  }, [dishId, modalAction]);
+
   let modalTitle = "";
   switch (modalAction) {
     case "ADD":
@@ -24,13 +40,7 @@ const DishModal: React.FC<Props> = props => {
     default:
       modalTitle = null;
   }
-
-  const {
-    data: dish,
-    error: dishError,
-    isLoading,
-  } = useSWR(`/api/dish/${dishId}`, fetcher);
-  console.log("dish", dish);
+  console.log("DishModal dishId", dishId);
 
   // TODO Show Loading
   // TODO Handle dishError
