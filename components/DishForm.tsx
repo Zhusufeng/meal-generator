@@ -46,7 +46,7 @@ const DishForm: React.FC<Props> = props => {
     const mealType = values.mealType.reduce((acc, type) => {
       return { ...acc, [type]: true };
     }, {});
-
+    const recipeInstructions = values?.recipeInstructions.split("\n");
     const payload = {
       userId: USER_ID,
       name: values.name,
@@ -55,7 +55,7 @@ const DishForm: React.FC<Props> = props => {
       recipe: {
         link: values.recipeLink,
         ingredientsText: values.recipeIngredients,
-        instructions: values?.instructions?.split("/n"),
+        instructions: recipeInstructions,
       },
     };
     return payload;
