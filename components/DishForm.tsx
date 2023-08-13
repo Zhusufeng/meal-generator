@@ -19,28 +19,58 @@ const DishForm: React.FC<Props> = props => {
     if (dish && modalAction === "EDIT") {
       // TODO refine
       const recipeInstructions = dish?.recipe?.instructions.join("\n");
-
+      console.log("dish.type", dish.type);
       form.setFieldsValue({
         name: dish?.name,
         description: dish?.description,
         imageLink: dish?.imageLink,
-        // dishType:
-        // mealType:
+        // dishType: {
+        //   entree: dish?.type?.entree,
+        //   side: dish?.type?.side,
+        // },
+        entree: dish?.type?.entree,
+        side: dish?.type?.side,
+        // mealType: {
+        //   breakfast: dish?.type?.breakfast,
+        //   lunch: dish?.type?.lunch,
+        //   dinner: dish?.type?.dinner,
+        //   snack: dish?.type?.snack,
+        // },
         recipeLink: dish?.recipe?.link,
         recipeIngredients: dish?.recipe?.ingredientsText,
         recipeInstructions: recipeInstructions,
       });
     }
-    return () => {
-      form.resetFields();
-    };
   }, [dish, modalAction, form]);
+
+  const transformPayload = values => {
+    const dishType = values.dishType.reduce((acc, type) => {
+      return { ...acc, [type]: true };
+    }, {});
+    const mealType = values.mealType.reduce((acc, type) => {
+      return { ...acc, [type]: true };
+    }, {});
+
+    const payload = {
+      userId: USER_ID,
+      name: values.name,
+      description: values.description,
+      type: { ...dishType, ...mealType },
+      recipe: {
+        link: values.recipeLink,
+        ingredientsText: values.recipeIngredients,
+        instructions: values?.instructions?.split("/n"),
+      },
+    };
+    return payload;
+  };
 
   const onFinish = async (values: any) => {
     console.log("values:", values);
 
     setIsLoading(true);
-    const payload = { ...values, userId: USER_ID };
+    const payload = transformPayload(values);
+    console.log("payload", payload);
     // TODO Handle errors
     switch (modalAction) {
       case "ADD":
@@ -63,7 +93,7 @@ const DishForm: React.FC<Props> = props => {
         }
       default:
     }
-
+    mutate("/api/dish");
     setIsLoading(false);
     setIsModalOpen(false);
     form.resetFields();
@@ -128,10 +158,10 @@ const DishForm: React.FC<Props> = props => {
         ]}
       >
         <Checkbox.Group>
-          <Checkbox value="entree" style={{ lineHeight: "32px" }}>
+          <Checkbox name="entree" value="entree" style={{ lineHeight: "32px" }}>
             Entree
           </Checkbox>
-          <Checkbox value="side" style={{ lineHeight: "32px" }}>
+          <Checkbox name="side" value="side" style={{ lineHeight: "32px" }}>
             Side
           </Checkbox>
         </Checkbox.Group>
