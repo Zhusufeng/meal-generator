@@ -1,4 +1,6 @@
 import { Modal } from "antd";
+import axios from "axios";
+import useSWR from "swr";
 import DishForm from "../components/DishForm";
 
 type Props = {
@@ -7,6 +9,8 @@ type Props = {
   setIsModalOpen: (value: boolean) => void;
   dishId: string | null;
 };
+
+const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const DishModal: React.FC<Props> = props => {
   const { modalAction, isModalOpen, setIsModalOpen, dishId } = props;
@@ -20,6 +24,13 @@ const DishModal: React.FC<Props> = props => {
     default:
       modalTitle = null;
   }
+
+  const {
+    data: dishData,
+    error: dishError,
+    isLoading,
+  } = useSWR(`/api/dish/${dishId}`, fetcher);
+  console.log("dishData", dishData);
 
   return (
     <Modal
