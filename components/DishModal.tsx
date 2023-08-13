@@ -1,51 +1,21 @@
 import { Modal } from "antd";
-import axios from "axios";
-import { useEffect, useState } from "react";
 import DishForm from "../components/DishForm";
 
 type Props = {
-  modalAction: string;
+  modalAction: ModalAction;
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
-  dishId: string | null;
+  dish: Dish | null;
 };
 
 const DishModal: React.FC<Props> = props => {
-  const { modalAction, isModalOpen, setIsModalOpen, dishId } = props;
-  const [dish, setDish] = useState(null);
-  const [modalTitle, setModalTitle] = useState("Dish");
-
-  useEffect(() => {
-    const getDish = async () => {
-      const result = await axios.get(`/api/dish/${dishId}`);
-      setDish(result.data.data);
-    };
-
-    // TODO handle error
-    if (modalAction === "EDIT" && dishId) {
-      getDish().catch(error => console.log(error));
-    }
-    return () => {
-      setDish(null);
-    };
-  }, [dishId, modalAction, isModalOpen]);
-
-  useEffect(() => {
-    switch (modalAction) {
-      case "ADD":
-        setModalTitle("Add Dish");
-        break;
-      case "EDIT":
-        setModalTitle("Edit Dish");
-      default:
-    }
-  }, [modalAction]);
+  const { modalAction, isModalOpen, setIsModalOpen, dish } = props;
 
   // TODO Show Loading
   // TODO Handle dishError
   return (
     <Modal
-      title={modalTitle}
+      title={modalAction.modalTitle}
       open={isModalOpen}
       footer={null}
       onCancel={() => setIsModalOpen(false)}
