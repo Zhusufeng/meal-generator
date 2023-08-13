@@ -31,7 +31,8 @@ const DishForm: React.FC<Props> = props => {
     const payload = transformPayload(values);
     console.log("payload", payload);
     // TODO Handle errors
-    await modalAction.api(payload);
+    const dishId = dish._id || null;
+    await modalAction.api(payload, dishId).catch(error => console.log(error));
     mutate("/api/dish");
     setIsLoading(false);
     setIsModalOpen(false);
