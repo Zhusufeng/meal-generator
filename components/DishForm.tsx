@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
 import { USER_ID } from "../lib/constants";
+import { formatDishFieldsValue } from "../lib/dishHelpers";
 
 type Props = {
   modalAction: string;
@@ -17,26 +18,12 @@ const DishForm: React.FC<Props> = props => {
 
   useEffect(() => {
     if (dish && modalAction === "EDIT") {
-      // TODO refine
-      const recipeInstructions = dish?.recipe?.instructions.join("\n");
-      const entree = dish?.type?.entree ? "entree" : null;
-      const side = dish?.type?.side ? "side" : null;
-      const breakfast = dish?.type?.breakfast ? "breakfast" : null;
-      const lunch = dish?.type?.lunch ? "lunch" : null;
-      const dinner = dish?.type?.dinner ? "dinner" : null;
-      const snack = dish?.type?.snack ? "snack" : null;
-
-      form.setFieldsValue({
-        name: dish?.name,
-        description: dish?.description,
-        imageLink: dish?.imageLink,
-        dishType: [entree, side],
-        mealType: [breakfast, lunch, dinner, snack],
-        recipeLink: dish?.recipe?.link,
-        recipeIngredients: dish?.recipe?.ingredientsText,
-        recipeInstructions: recipeInstructions,
-      });
+      const formattedDish = formatDishFieldsValue(dish);
+      form.setFieldsValue(formattedDish);
     }
+    return () => {
+      form.resetFields();
+    };
   }, [dish, modalAction, form]);
 
   const transformPayload = values => {
