@@ -15,11 +15,11 @@ const Dish: React.FC = () => {
   // TODO Refactor to pass down ADD or EDIT object
 
   const {
-    data: dishData,
-    error: dishError,
+    data: dishes,
+    error: dishesError,
     isLoading,
   } = useSWR("/api/dish", fetcher);
-  console.log("dishData", dishData);
+  console.log("dishes", dishes);
 
   const addDish = () => {
     setIsModalOpen(true);
@@ -30,6 +30,7 @@ const Dish: React.FC = () => {
     setIsModalOpen(true);
     setModalAction("EDIT");
     setDishId(dishId);
+    console.log("dishId", dishId);
   };
 
   const columns = [
@@ -48,7 +49,7 @@ const Dish: React.FC = () => {
       title: "Edit",
       key: "edit",
       render: (_, record) => (
-        <Button onClick={() => editDish(record.id)}>Edit Dish</Button>
+        <Button onClick={() => editDish(record._id)}>Edit Dish</Button>
       ),
     },
   ];
@@ -58,10 +59,10 @@ const Dish: React.FC = () => {
     maxCount: 1,
   });
 
-  if (dishError) {
+  if (dishesError) {
     dishAPI.error({
       message: "Error",
-      description: dishError.toString(),
+      description: dishesError.toString(),
     });
   }
 
@@ -77,7 +78,7 @@ const Dish: React.FC = () => {
       <Button onClick={addDish}>Add Dish</Button>
       <Table
         rowKey="_id"
-        dataSource={dishData?.data}
+        dataSource={dishes?.data}
         columns={columns}
         loading={isLoading}
       />
