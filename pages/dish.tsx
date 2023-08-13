@@ -30,7 +30,6 @@ const Dish: React.FC = () => {
     setIsModalOpen(true);
     setModalAction("EDIT");
     setDishId(dishId);
-    console.log("dishId", dishId);
   };
 
   const columns = [
