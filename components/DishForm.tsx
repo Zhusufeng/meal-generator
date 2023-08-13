@@ -72,7 +72,6 @@ const DishForm: React.FC<Props> = props => {
       case "ADD":
         try {
           await axios.post("/api/dish", payload);
-          mutate("/api/dish");
           break;
         } catch (error) {
           console.log("error", error);
@@ -80,8 +79,7 @@ const DishForm: React.FC<Props> = props => {
         }
       case "EDIT":
         try {
-          axios.put(`/api/dish/${dish._id}`, payload);
-
+          await axios.put(`/api/dish/${dish._id}`, payload);
           break;
         } catch (error) {
           console.log("error", error);
