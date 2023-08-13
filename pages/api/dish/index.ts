@@ -26,6 +26,7 @@ export default async function handler(
     case "POST":
       try {
         const { name, description, imageLink, type, recipe, userId } = req.body;
+        // TODO Process 'recipe' into parts
         const dish = await Dish.create({
           name,
           description,
