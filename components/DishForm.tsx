@@ -34,21 +34,15 @@ const DishForm: React.FC<Props> = props => {
     // TODO Handle errors
     switch (modalAction) {
       case "ADD":
-        try {
-          await axios.post("/api/dish", payload);
-          break;
-        } catch (error) {
-          console.log("error", error);
-          break;
-        }
+        await axios
+          .post("/api/dish", payload)
+          .catch(error => console.log(error));
+        break;
       case "EDIT":
-        try {
-          await axios.put(`/api/dish/${dish._id}`, payload);
-          break;
-        } catch (error) {
-          console.log("error", error);
-          break;
-        }
+        await axios
+          .put(`/api/dish/${dish._id}`, payload)
+          .catch(error => console.log(error));
+        break;
       default:
     }
     mutate("/api/dish");
