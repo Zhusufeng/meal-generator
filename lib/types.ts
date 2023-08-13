@@ -19,3 +19,14 @@ type Dish = {
   createdBy: string;
   updatedBy: string;
 };
+
+type DishPayload = Pick<
+  Dish,
+  "name" | "description" | "imageLink" | "type" | "recipe"
+> & { userId: string };
+
+type ModalAction = {
+  action: string;
+  modalTitle: string;
+  api: (payload: DishPayload) => Promise<void>;
+};
