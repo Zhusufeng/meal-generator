@@ -26,12 +26,14 @@ const DishModal: React.FC<Props> = props => {
   }
 
   const {
-    data: dishData,
+    data: dish,
     error: dishError,
     isLoading,
   } = useSWR(`/api/dish/${dishId}`, fetcher);
-  console.log("dishData", dishData);
+  console.log("dish", dish);
 
+  // TODO Show Loading
+  // TODO Handle dishError
   return (
     <Modal
       title={modalTitle}
@@ -42,7 +44,7 @@ const DishModal: React.FC<Props> = props => {
       <DishForm
         modalAction={modalAction}
         setIsModalOpen={setIsModalOpen}
-        dishId={dishId}
+        dish={dish}
       />
     </Modal>
   );
