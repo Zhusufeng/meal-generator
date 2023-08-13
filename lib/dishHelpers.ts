@@ -38,6 +38,7 @@ export const transformPayload = values => {
   const payload = {
     userId: USER_ID,
     name: values.name,
+    imageLink: values.imageLink,
     description: values.description,
     type: { ...dishType, ...mealType },
     recipe: {
