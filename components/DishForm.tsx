@@ -1,5 +1,6 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import axios from "axios";
+import { useState } from "react";
 import { mutate } from "swr";
 
 type Props = {
@@ -10,11 +11,15 @@ type Props = {
 
 const DishForm: React.FC<Props> = props => {
   const { modalAction, setIsModalOpen, dishId } = props;
+  const [form] = Form.useForm();
+  const [isLoading, setIsLoading] = useState(false);
+
   // TODO Use real userId
-  const USER_ID = "64c4997d57bde9dc7ae69a0b";
+  const USER_ID = "64d8535357bde9dc7ae69a18";
   const onFinish = async (values: any) => {
     console.log("values:", values);
-    // TODO Loading state
+
+    setIsLoading(true);
     const payload = { ...values, userId: USER_ID };
     switch (modalAction) {
       case "ADD":
@@ -26,12 +31,16 @@ const DishForm: React.FC<Props> = props => {
         break;
       default:
     }
+
+    setIsLoading(false);
     setIsModalOpen(false);
+    form.resetFields();
   };
 
   return (
     <Form
-      name="basic"
+      name="Add or Edit Dish"
+      form={form}
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       style={{ maxWidth: 600 }}
@@ -113,7 +122,7 @@ const DishForm: React.FC<Props> = props => {
       </Form.Item>
 
       <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={isLoading}>
           Submit
         </Button>
       </Form.Item>
