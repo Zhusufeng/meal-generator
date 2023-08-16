@@ -65,8 +65,8 @@ const Dish: React.FC = () => {
     {
       title: "Recipe",
       key: "recipe",
-      render: (_, record) => (
-        <Button onClick={() => handleRecipeButtonClick(record._id)}>
+      render: (_: any, dish: Dish) => (
+        <Button onClick={() => handleRecipeButtonClick(dish._id)}>
           View Recipe
         </Button>
       ),
@@ -74,8 +74,8 @@ const Dish: React.FC = () => {
     {
       title: "Edit",
       key: "edit",
-      render: (_, record) => (
-        <Button onClick={() => editDish(record._id)}>Edit Dish</Button>
+      render: (_: any, dish: Dish) => (
+        <Button onClick={() => editDish(dish._id)}>Edit Dish</Button>
       ),
     },
   ];
