@@ -11,18 +11,26 @@ const RecipeModal: React.FC<Props> = props => {
   const { isModalOpen, setIsModalOpen, dish } = props;
 
   const title = dish?.name ? `${dish.name} Recipe` : "Loading...";
-  const link = dish?.recipe?.link ? (
-    <a href={dish.recipe.link}>`${dish.name} Recipe Link`</a>
-  ) : null;
   const ingredients = dish?.recipe?.ingredientsText || null;
+
   return (
     <Modal
       title={title}
       open={isModalOpen}
       onCancel={() => setIsModalOpen(false)}
     >
-      <div>{link}</div>
+      {dish?.recipe?.link ? (
+        <>
+          <h3>Link</h3>
+          <div>
+            <a href={dish.recipe.link}>{title} Link</a>
+          </div>
+        </>
+      ) : null}
+
+      <h3>Ingredients</h3>
       <div>{ingredients}</div>
+      <h3>Instructions</h3>
       <div>
         <RecipeInstructions instructions={dish?.recipe?.instructions} />
       </div>
