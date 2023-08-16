@@ -1,4 +1,5 @@
 import { Modal } from "antd";
+import RecipeInstructions from "./RecipeInstructions";
 
 type Props = {
   isModalOpen: boolean;
@@ -22,7 +23,9 @@ const RecipeModal: React.FC<Props> = props => {
     >
       <div>{link}</div>
       <div>{ingredients}</div>
-      <div>recipe here</div>
+      <div>
+        <RecipeInstructions instructions={dish?.recipe?.instructions} />
+      </div>
     </Modal>
   );
 };
