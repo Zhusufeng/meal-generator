@@ -1,30 +1,26 @@
-import { Button, Modal } from "antd";
-import { useState } from "react";
+import { Modal } from "antd";
 
 type Props = {
-  dishId: string;
+  isModalOpen: boolean;
+  setIsModalOpen: (value: boolean) => void;
+  dish: Dish | null;
 };
 
 const RecipeModal: React.FC<Props> = props => {
-  const { dishId } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const handleOpen = () => {
-    setIsModalOpen(true);
-    // Use dish ID to GET recipe
-  };
+  const { isModalOpen, setIsModalOpen, dish } = props;
 
   return (
-    <div>
-      <Button onClick={handleOpen}>View Recipe</Button>
-      <Modal
-        title="EDIT TITLE"
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
-      >
-        Recipe here
-      </Modal>
-    </div>
+    <Modal
+      title={`${dish.name} Recipe`}
+      open={isModalOpen}
+      onCancel={() => setIsModalOpen(false)}
+    >
+      <div>
+        {dish.recipe.link ? <a href="">`${dish.name} Recipe`</a> : null}
+      </div>
+      <div>{dish.recipe.ingredientsText}</div>
+      <div>recipe here</div>
+    </Modal>
   );
 };
 
