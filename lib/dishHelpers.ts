@@ -40,13 +40,15 @@ export const formatDishFieldsValue = dish => {
 };
 
 export const transformPayload = values => {
+  console.log("values", values);
   const dishType = values.dishType.reduce((acc, type) => {
     return { ...acc, [type]: true };
   }, {});
   const mealType = values.mealType.reduce((acc, type) => {
     return { ...acc, [type]: true };
   }, {});
-  const recipeInstructions = values?.recipeInstructions?.split("\n");
+  const recipeInstructions =
+    values?.recipeInstructions?.split("\n") || undefined;
   const payload = {
     userId: USER_ID,
     name: values.name,
