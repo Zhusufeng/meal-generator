@@ -12,7 +12,7 @@ const RecipeModal: React.FC<Props> = props => {
 
   const title = dish?.name ? `${dish.name} Recipe` : "Loading...";
   const link = dish?.recipe?.link ? (
-    <a href={dish.recipe.link}>`${dish.name} Recipe`</a>
+    <a href={dish.recipe.link}>`${dish.name} Recipe Link`</a>
   ) : null;
   const ingredients = dish?.recipe?.ingredientsText || null;
   return (
