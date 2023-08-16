@@ -1,4 +1,4 @@
-import { Button, Table, notification } from "antd";
+import { Button, Space, Table, notification } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -117,13 +117,18 @@ const Dish: React.FC = () => {
         setIsModalOpen={setIsRecipeModalOpen}
         dish={dish}
       />
-      <Button onClick={addDish}>Add Dish</Button>
-      <Table
-        rowKey="_id"
-        dataSource={dishes?.data}
-        columns={columns}
-        loading={isLoading}
-      />
+
+      <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button onClick={addDish}>Add Dish</Button>
+        </div>
+        <Table
+          rowKey="_id"
+          dataSource={dishes?.data}
+          columns={columns}
+          loading={isLoading}
+        />
+      </Space>
     </Layout>
   );
 };
