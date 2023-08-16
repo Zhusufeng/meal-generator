@@ -11,8 +11,6 @@ type Props = {
 const DishModal: React.FC<Props> = props => {
   const { modalAction, isModalOpen, setIsModalOpen, dish } = props;
 
-  // TODO Show Loading
-  // TODO Handle dishError
   return (
     <Modal
       title={modalAction.modalTitle}
