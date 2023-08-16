@@ -65,11 +65,22 @@ const Dish: React.FC = () => {
     {
       title: "Recipe",
       key: "recipe",
-      render: (_: any, dish: Dish) => (
-        <Button onClick={() => handleRecipeButtonClick(dish._id)}>
-          View Recipe
-        </Button>
-      ),
+      render: (_: any, dish: Dish) => {
+        const { recipe } = dish;
+        const hasRecipeInfo =
+          recipe?.link ||
+          recipe?.ingredientsText ||
+          recipe?.instructions.length;
+        if (hasRecipeInfo) {
+          return (
+            <Button onClick={() => handleRecipeButtonClick(dish._id)}>
+              View Recipe
+            </Button>
+          );
+        } else {
+          return null;
+        }
+      },
     },
     {
       title: "Edit",
