@@ -14,7 +14,7 @@ export default async function handler(
     case "GET":
       try {
         // TODO Create new API that finds dish by userId { createdBy: userId }
-        const dishes = await Dish.find({}, ["name"]);
+        const dishes = await Dish.find({}, ["name", "recipe"]);
         res.status(200).json({ success: true, data: dishes });
       } catch (error) {
         res.status(400).json({
