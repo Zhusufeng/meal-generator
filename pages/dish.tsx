@@ -1,3 +1,4 @@
+import { EditOutlined, ZoomInOutlined } from "@ant-design/icons";
 import { Button, Space, Table, notification } from "antd";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -74,7 +75,7 @@ const Dish: React.FC = () => {
         if (hasRecipeInfo) {
           return (
             <Button onClick={() => handleRecipeButtonClick(dish._id)}>
-              View Recipe
+              View <ZoomInOutlined />
             </Button>
           );
         } else {
@@ -86,7 +87,9 @@ const Dish: React.FC = () => {
       title: "Edit",
       key: "edit",
       render: (_: any, dish: Dish) => (
-        <Button onClick={() => editDish(dish._id)}>Edit Dish</Button>
+        <Button onClick={() => editDish(dish._id)}>
+          Edit <EditOutlined />
+        </Button>
       ),
     },
   ];
@@ -120,7 +123,9 @@ const Dish: React.FC = () => {
 
       <Space direction="vertical" size="middle" style={{ display: "flex" }}>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <Button onClick={addDish}>Add Dish</Button>
+          <Button type="primary" onClick={addDish}>
+            Add Dish
+          </Button>
         </div>
         <Table
           rowKey="_id"
