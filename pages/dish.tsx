@@ -19,42 +19,39 @@ const Dish: React.FC = () => {
   useEffect(() => {
     const getDish = async () => {
       const result = await axios.get(`/api/dish/${dishId}`);
-      console.log("I ran");
       setDish(result.data.data);
     };
 
     // TODO handle error
-    // YOU WERE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // TODO change to run WITHOUT EDIT!!!!!
-    if (modalAction.action === "EDIT" && dishId) {
+    if (dishId) {
       getDish().catch(error => console.log(error));
+    } else {
+      setDish(null);
     }
     return () => {
       setDish(null);
     };
-  }, [dishId, modalAction]);
+  }, [dishId]);
 
   const {
     data: dishes,
     error: dishesError,
     isLoading,
   } = useSWR("/api/dish", fetcher);
-  console.log(dishes);
 
   const addDish = () => {
+    setDishId(null);
     setIsDishModalOpen(true);
     setModalAction(ADD);
-    setDishId(null);
   };
 
   const editDish = (dishId: string) => {
+    setDishId(dishId);
     setIsDishModalOpen(true);
     setModalAction(EDIT);
-    setDishId(dishId);
   };
 
   const handleRecipeButtonClick = (dishId: string) => {
-    console.log("I got dishId", dishId);
     setDishId(dishId);
     setIsRecipeModalOpen(true);
   };
