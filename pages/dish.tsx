@@ -58,7 +58,10 @@ const Dish: React.FC = () => {
       title: "Recipe",
       key: "recipe",
       dataIndex: "_id",
-      render: id => <RecipeModal dishId={id} />,
+      render: (dishId: string) => {
+        setDishId(dishId);
+        return <RecipeModal dish={dish} />;
+      },
     },
     {
       title: "Edit",
