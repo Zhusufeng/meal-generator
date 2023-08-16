@@ -11,6 +11,7 @@ const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
   const [isDishModalOpen, setIsDishModalOpen] = useState(false);
+  const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [dishId, setDishId] = useState(null);
   const [dish, setDish] = useState(null);
   const [modalAction, setModalAction] = useState(ADD);
@@ -18,10 +19,13 @@ const Dish: React.FC = () => {
   useEffect(() => {
     const getDish = async () => {
       const result = await axios.get(`/api/dish/${dishId}`);
+      console.log("I ran");
       setDish(result.data.data);
     };
 
     // TODO handle error
+    // YOU WERE HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // TODO change to run WITHOUT EDIT!!!!!
     if (modalAction.action === "EDIT" && dishId) {
       getDish().catch(error => console.log(error));
     }
@@ -49,6 +53,12 @@ const Dish: React.FC = () => {
     setDishId(dishId);
   };
 
+  const handleRecipeButtonClick = (dishId: string) => {
+    console.log("I got dishId", dishId);
+    setDishId(dishId);
+    setIsRecipeModalOpen(true);
+  };
+
   const columns = [
     {
       title: "Dish Name",
@@ -58,16 +68,16 @@ const Dish: React.FC = () => {
     {
       title: "Recipe",
       key: "recipe",
-      dataIndex: "_id",
-      render: (dishId: string, record: Dish) => {
-        setDishId(dishId);
-        return <RecipeModal dish={dish} />;
-      },
+      render: (_, record) => (
+        <Button onClick={() => handleRecipeButtonClick(record._id)}>
+          View Recipe
+        </Button>
+      ),
     },
     {
       title: "Edit",
       key: "edit",
-      render: (_, record: Dish) => (
+      render: (_, record) => (
         <Button onClick={() => editDish(record._id)}>Edit Dish</Button>
       ),
     },
@@ -94,7 +104,11 @@ const Dish: React.FC = () => {
         setIsModalOpen={setIsDishModalOpen}
         dish={dish}
       />
-      <RecipeModal dish={dish} />
+      <RecipeModal
+        isModalOpen={isRecipeModalOpen}
+        setIsModalOpen={setIsRecipeModalOpen}
+        dish={dish}
+      />
       <Button onClick={addDish}>Add Dish</Button>
       <Table
         rowKey="_id"
