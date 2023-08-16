@@ -10,7 +10,7 @@ import { ADD, EDIT } from "../lib/dishHelpers";
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isDishModalOpen, setIsDishModalOpen] = useState(false);
   const [dishId, setDishId] = useState(null);
   const [dish, setDish] = useState(null);
   const [modalAction, setModalAction] = useState(ADD);
@@ -35,15 +35,16 @@ const Dish: React.FC = () => {
     error: dishesError,
     isLoading,
   } = useSWR("/api/dish", fetcher);
+  console.log(dishes);
 
   const addDish = () => {
-    setIsModalOpen(true);
+    setIsDishModalOpen(true);
     setModalAction(ADD);
     setDishId(null);
   };
 
   const editDish = (dishId: string) => {
-    setIsModalOpen(true);
+    setIsDishModalOpen(true);
     setModalAction(EDIT);
     setDishId(dishId);
   };
@@ -58,7 +59,7 @@ const Dish: React.FC = () => {
       title: "Recipe",
       key: "recipe",
       dataIndex: "_id",
-      render: (dishId: string) => {
+      render: (dishId: string, record: Dish) => {
         setDishId(dishId);
         return <RecipeModal dish={dish} />;
       },
@@ -66,7 +67,7 @@ const Dish: React.FC = () => {
     {
       title: "Edit",
       key: "edit",
-      render: (_, record) => (
+      render: (_, record: Dish) => (
         <Button onClick={() => editDish(record._id)}>Edit Dish</Button>
       ),
     },
@@ -89,10 +90,11 @@ const Dish: React.FC = () => {
       {dishContextHolder}
       <DishModal
         modalAction={modalAction}
-        isModalOpen={isModalOpen}
-        setIsModalOpen={setIsModalOpen}
+        isModalOpen={isDishModalOpen}
+        setIsModalOpen={setIsDishModalOpen}
         dish={dish}
       />
+      <RecipeModal dish={dish} />
       <Button onClick={addDish}>Add Dish</Button>
       <Table
         rowKey="_id"
