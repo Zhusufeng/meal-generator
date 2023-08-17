@@ -1,17 +1,61 @@
-import { Button, Table, notification } from "antd";
+import { EditOutlined, ZoomInOutlined } from "@ant-design/icons";
+import { Button, Space, Table, notification } from "antd";
 import axios from "axios";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
+import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
+import RecipeModal from "../components/RecipeModal";
+import { ADD, EDIT } from "../lib/dishHelpers";
 
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 const Dish: React.FC = () => {
+  const [isDishModalOpen, setIsDishModalOpen] = useState(false);
+  const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
+  const [dishId, setDishId] = useState(null);
+  const [dish, setDish] = useState(null);
+  const [modalAction, setModalAction] = useState(ADD);
+
+  useEffect(() => {
+    const getDish = async () => {
+      const result = await axios.get(`/api/dish/${dishId}`);
+      setDish(result.data.data);
+    };
+
+    // TODO handle error
+    if (dishId) {
+      getDish().catch(error => console.log(error));
+    } else {
+      setDish(null);
+    }
+    return () => {
+      setDish(null);
+    };
+  }, [dishId]);
+
   const {
-    data: dishData,
-    error: dishError,
+    data: dishes,
+    error: dishesError,
     isLoading,
   } = useSWR("/api/dish", fetcher);
-  console.log("dishData", dishData);
+
+  const addDish = () => {
+    setDishId(null);
+    setIsDishModalOpen(true);
+    setModalAction(ADD);
+  };
+
+  const editDish = (dishId: string) => {
+    setDishId(dishId);
+    setIsDishModalOpen(true);
+    setModalAction(EDIT);
+  };
+
+  const handleRecipeButtonClick = (dishId: string) => {
+    setDishId(dishId);
+    setIsRecipeModalOpen(true);
+  };
 
   const columns = [
     {
@@ -22,12 +66,31 @@ const Dish: React.FC = () => {
     {
       title: "Recipe",
       key: "recipe",
-      render: (_, record) => <Button>View Recipe</Button>,
+      render: (_: any, dish: Dish) => {
+        const { recipe } = dish;
+        const hasRecipeInfo =
+          recipe?.link ||
+          recipe?.ingredientsText ||
+          recipe?.instructions.length;
+        if (hasRecipeInfo) {
+          return (
+            <Button onClick={() => handleRecipeButtonClick(dish._id)}>
+              View <ZoomInOutlined />
+            </Button>
+          );
+        } else {
+          return null;
+        }
+      },
     },
     {
       title: "Edit",
       key: "edit",
-      render: (_, record) => <Button>Edit Dish</Button>,
+      render: (_: any, dish: Dish) => (
+        <Button onClick={() => editDish(dish._id)}>
+          Edit <EditOutlined />
+        </Button>
+      ),
     },
   ];
 
@@ -36,22 +99,41 @@ const Dish: React.FC = () => {
     maxCount: 1,
   });
 
-  if (dishError) {
+  if (dishesError) {
     dishAPI.error({
       message: "Error",
-      description: dishError.toString(),
+      description: dishesError.toString(),
     });
   }
 
   return (
     <Layout>
       {dishContextHolder}
-      <Button>Add Dish</Button>
-      <Table
-        dataSource={dishData?.data}
-        columns={columns}
-        loading={isLoading}
+      <DishModal
+        modalAction={modalAction}
+        isModalOpen={isDishModalOpen}
+        setIsModalOpen={setIsDishModalOpen}
+        dish={dish}
       />
+      <RecipeModal
+        isModalOpen={isRecipeModalOpen}
+        setIsModalOpen={setIsRecipeModalOpen}
+        dish={dish}
+      />
+
+      <Space direction="vertical" size="middle" style={{ display: "flex" }}>
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
+          <Button type="primary" onClick={addDish}>
+            Add Dish
+          </Button>
+        </div>
+        <Table
+          rowKey="_id"
+          dataSource={dishes?.data}
+          columns={columns}
+          loading={isLoading}
+        />
+      </Space>
     </Layout>
   );
 };

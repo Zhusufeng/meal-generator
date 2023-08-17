@@ -28,4 +28,7 @@ const DishSchema = new mongoose.Schema({
   },
 });
 
+// Add an ascending index to the "name" field
+DishSchema.index({ name: 1 });
+
 export default mongoose.models.Dish || mongoose.model("Dish", DishSchema);
