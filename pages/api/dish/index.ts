@@ -13,9 +13,12 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        // TODO Create new API that finds dish by userId { createdBy: userId }
-        const dishes = await Dish.find({}, ["name", "recipe"]);
-        res.status(200).json({ success: true, data: dishes });
+        // TODO Create new API that finds dish by userId { createdBy: userId } & then by familyId
+        const result = await Dish.find({}, ["name", "recipe"]).sort({
+          name: 1,
+        });
+        // TODO Paginate results
+        res.status(200).json({ success: true, data: result });
       } catch (error) {
         res.status(400).json({
           success: false,
