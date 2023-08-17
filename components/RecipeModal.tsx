@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Button, Modal } from "antd";
 import RecipeInstructions from "./RecipeInstructions";
 
 type Props = {
@@ -21,9 +21,16 @@ const RecipeModal: React.FC<Props> = props => {
     >
       {dish?.recipe?.link ? (
         <>
-          <h3>Link</h3>
           <div>
-            <a href={dish.recipe.link}>{title} Link</a>
+            <Button
+              type="link"
+              href={dish.recipe.link}
+              style={{ padding: 0 }}
+              target="_blank"
+              rel="noopener"
+            >
+              Link to Original Recipe
+            </Button>
           </div>
         </>
       ) : null}
