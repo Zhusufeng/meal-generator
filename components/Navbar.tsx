@@ -69,7 +69,7 @@ const NavBar = () => {
           <>
             <div>Not signed in</div>
             <div>
-              <Button onClick={() => signIn()}>Log In</Button>
+              <Button onClick={() => signIn("google")}>Log In</Button>
             </div>
           </>
         )}
