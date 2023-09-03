@@ -1,5 +1,6 @@
 import type { MenuProps } from "antd";
 import { Button, Layout, Menu } from "antd";
+import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -25,6 +26,7 @@ const items: MenuProps["items"] = [
 
 const NavBar = () => {
   const router = useRouter();
+  const { data: session } = useSession();
   const [current, setCurrent] = useState(router.pathname);
 
   const onClick: MenuProps["onClick"] = e => {
@@ -56,10 +58,21 @@ const NavBar = () => {
         />
       </div>
       <div style={{ display: "flex", columnGap: "20px" }}>
-        <div>Greeting Here</div>
-        <div>
-          <Button>Log Out</Button>
-        </div>
+        {session ? (
+          <>
+            <div>Signed in as {session.user.email}</div>
+            <div>
+              <Button onClick={() => signOut()}>Log Out</Button>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>Not signed in</div>
+            <div>
+              <Button onClick={() => signIn("google")}>Log In</Button>
+            </div>
+          </>
+        )}
       </div>
     </Layout.Header>
   );
