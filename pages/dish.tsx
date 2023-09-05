@@ -22,14 +22,14 @@ const Dish: React.FC = () => {
   const { data: session } = useSession();
 
   useEffect(() => {
-    const getDish = async () => {
-      const result = await axios.get(`/api/dish/${dishId}`);
+    const getDish = async (id: string) => {
+      const result = await axios.get(`/api/dish/${id}`);
       setDish(result.data.data);
     };
 
     // TODO handle error
     if (dishId) {
-      getDish().catch(error => console.log(error));
+      getDish(dishId).catch(error => console.log(error));
     } else {
       setDish(null);
     }
