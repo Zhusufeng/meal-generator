@@ -20,7 +20,6 @@ const Dish: React.FC = () => {
   const [dish, setDish] = useState(null);
   const [modalAction, setModalAction] = useState(ADD);
   const { data: session } = useSession();
-  console.log("session", session);
 
   useEffect(() => {
     const getDish = async () => {
