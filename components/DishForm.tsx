@@ -7,10 +7,11 @@ type Props = {
   modalAction: ModalAction;
   setIsModalOpen: (value: boolean) => void;
   dish: Dish | null;
+  session: Session;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen, dish } = props;
+  const { modalAction, setIsModalOpen, dish, session } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -28,7 +29,8 @@ const DishForm: React.FC<Props> = props => {
     console.log("values:", values);
 
     setIsLoading(true);
-    const payload = transformPayload(values);
+    const userId = session.user.id;
+    const payload = transformPayload(values, userId);
     console.log("payload", payload);
     // TODO Handle errors
     const dishId = dish?._id || null;
