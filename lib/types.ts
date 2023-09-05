@@ -30,3 +30,13 @@ type ModalAction = {
   modalTitle: string;
   api: (payload: DishPayload, dishId: string | null) => Promise<void>;
 };
+
+type UserSession = {
+  expires: string;
+  user: {
+    email: string;
+    id: string;
+    image: string;
+    name: string;
+  };
+};

@@ -1,5 +1,4 @@
 import { addDish, editDish } from "./apiCalls";
-import { USER_ID } from "./constants";
 
 export const ADD = {
   action: "ADD",
@@ -39,7 +38,7 @@ export const formatDishFieldsValue = dish => {
   return formattedDish;
 };
 
-export const transformPayload = values => {
+export const transformPayload = (values, userId: string) => {
   console.log("values", values);
   const dishType = values.dishType.reduce((acc, type) => {
     return { ...acc, [type]: true };
@@ -47,10 +46,11 @@ export const transformPayload = values => {
   const mealType = values.mealType.reduce((acc, type) => {
     return { ...acc, [type]: true };
   }, {});
-  const recipeInstructions =
-    values?.recipeInstructions?.split("\n") || undefined;
+  const recipeInstructions = values.recipeInstructions
+    ? values.recipeInstructions?.split("\n")
+    : undefined;
   const payload = {
-    userId: USER_ID,
+    userId,
     name: values.name,
     imageLink: values.imageLink,
     description: values.description,
