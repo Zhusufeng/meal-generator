@@ -20,6 +20,7 @@ const Dish: React.FC = () => {
   const [dish, setDish] = useState(null);
   const [modalAction, setModalAction] = useState(ADD);
   const { data: session } = useSession();
+  console.log("session", session);
 
   useEffect(() => {
     const getDish = async () => {
@@ -126,6 +127,7 @@ const Dish: React.FC = () => {
         isModalOpen={isDishModalOpen}
         setIsModalOpen={setIsDishModalOpen}
         dish={dish}
+        session={session}
       />
       <RecipeModal
         isModalOpen={isRecipeModalOpen}
