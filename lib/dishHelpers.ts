@@ -46,8 +46,9 @@ export const transformPayload = (values, userId: string) => {
   const mealType = values.mealType.reduce((acc, type) => {
     return { ...acc, [type]: true };
   }, {});
-  const recipeInstructions =
-    values?.recipeInstructions?.split("\n") || undefined;
+  const recipeInstructions = values.recipeInstructions
+    ? values.recipeInstructions?.split("\n")
+    : undefined;
   const payload = {
     userId,
     name: values.name,
