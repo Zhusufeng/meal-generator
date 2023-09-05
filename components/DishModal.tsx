@@ -6,7 +6,7 @@ type Props = {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
   dish: Dish | null;
-  session: Session;
+  session: UserSession;
 };
 
 const DishModal: React.FC<Props> = props => {
