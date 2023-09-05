@@ -12,7 +12,6 @@ import { ADD, EDIT } from "../lib/dishHelpers";
 const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 // TODO Move to a component
-
 const Dish: React.FC = () => {
   const [isDishModalOpen, setIsDishModalOpen] = useState(false);
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
@@ -44,15 +43,24 @@ const Dish: React.FC = () => {
     isLoading,
   } = useSWR("/api/dish", fetcher);
 
+  const handleDishModal = (isOpen: boolean) => {
+    if (isOpen) {
+      setIsDishModalOpen(true);
+    } else {
+      setIsDishModalOpen(false);
+      setDishId(null);
+    }
+  };
+
   const addDish = () => {
     setDishId(null);
-    setIsDishModalOpen(true);
+    handleDishModal(true);
     setModalAction(ADD);
   };
 
   const editDish = (dishId: string) => {
     setDishId(dishId);
-    setIsDishModalOpen(true);
+    handleDishModal(true);
     setModalAction(EDIT);
   };
 
@@ -124,7 +132,7 @@ const Dish: React.FC = () => {
       <DishModal
         modalAction={modalAction}
         isModalOpen={isDishModalOpen}
-        setIsModalOpen={setIsDishModalOpen}
+        setIsModalOpen={handleDishModal}
         dish={dish}
         session={session as UserSession}
       />
