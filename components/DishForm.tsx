@@ -6,13 +6,13 @@ import { formatDishFieldsValue, transformPayload } from "../lib/dishHelpers";
 
 type Props = {
   modalAction: ModalAction;
-  setIsModalOpen: (value: boolean) => void;
+  handleDishModal: (value: boolean) => void;
   dishId: string | null;
   userId: string;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen, dishId, userId } = props;
+  const { modalAction, handleDishModal, dishId, userId } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [dish, setDish] = useState(null);
@@ -46,7 +46,7 @@ const DishForm: React.FC<Props> = props => {
     await modalAction.api(payload, dishId).catch(error => console.log(error));
     mutate("/api/dish");
     setIsLoading(false);
-    setIsModalOpen(false);
+    handleDishModal(false);
   };
 
   return (

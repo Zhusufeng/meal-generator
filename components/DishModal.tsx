@@ -4,24 +4,24 @@ import DishForm from "../components/DishForm";
 type Props = {
   modalAction: ModalAction;
   isModalOpen: boolean;
-  setIsModalOpen: (value: boolean) => void;
+  handleDishModal: (value: boolean) => void;
   dishId: string | null;
   userId: string;
 };
 
 const DishModal: React.FC<Props> = props => {
-  const { modalAction, isModalOpen, setIsModalOpen, dishId, userId } = props;
+  const { modalAction, isModalOpen, handleDishModal, dishId, userId } = props;
 
   return (
     <Modal
       title={modalAction.modalTitle}
       open={isModalOpen}
       footer={null}
-      onCancel={() => setIsModalOpen(false)}
+      onCancel={() => handleDishModal(false)}
     >
       <DishForm
         modalAction={modalAction}
-        setIsModalOpen={setIsModalOpen}
+        handleDishModal={handleDishModal}
         dishId={dishId}
         userId={userId}
       />

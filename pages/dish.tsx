@@ -114,7 +114,7 @@ const Dish: React.FC = () => {
       <DishModal
         modalAction={modalAction}
         isModalOpen={isDishModalOpen}
-        setIsModalOpen={handleDishModal}
+        handleDishModal={handleDishModal}
         dishId={dishId}
         userId={(session as UserSession)?.user?.id}
       />
