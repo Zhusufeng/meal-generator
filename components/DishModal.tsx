@@ -6,11 +6,11 @@ type Props = {
   isModalOpen: boolean;
   setIsModalOpen: (value: boolean) => void;
   dishId: string | null;
-  session: UserSession;
+  userId: string;
 };
 
 const DishModal: React.FC<Props> = props => {
-  const { modalAction, isModalOpen, setIsModalOpen, dishId, session } = props;
+  const { modalAction, isModalOpen, setIsModalOpen, dishId, userId } = props;
 
   return (
     <Modal
@@ -23,7 +23,7 @@ const DishModal: React.FC<Props> = props => {
         modalAction={modalAction}
         setIsModalOpen={setIsModalOpen}
         dishId={dishId}
-        session={session}
+        userId={userId}
       />
     </Modal>
   );

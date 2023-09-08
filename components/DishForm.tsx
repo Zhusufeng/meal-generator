@@ -8,11 +8,11 @@ type Props = {
   modalAction: ModalAction;
   setIsModalOpen: (value: boolean) => void;
   dishId: string | null;
-  session: UserSession;
+  userId: string;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen, dishId, session } = props;
+  const { modalAction, setIsModalOpen, dishId, userId } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [dish, setDish] = useState(null);
@@ -39,7 +39,6 @@ const DishForm: React.FC<Props> = props => {
   const onFinish = async (values: any) => {
     console.log("values:", values);
     setIsLoading(true);
-    const userId = session.user.id;
     const payload = transformPayload(values, userId);
     console.log("payload", payload);
     // TODO Handle errors
