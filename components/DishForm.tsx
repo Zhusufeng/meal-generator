@@ -34,7 +34,7 @@ const DishForm: React.FC<Props> = props => {
       setDish(null);
       form.resetFields();
     };
-  }, [dishId, form]);
+  }, [dishId, form, handleDishModal]);
 
   const onFinish = async (values: any) => {
     console.log("values:", values);
