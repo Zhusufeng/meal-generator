@@ -135,6 +135,7 @@ const Dish: React.FC = () => {
           dataSource={dishes?.data}
           columns={columns}
           loading={isLoading}
+          pagination={false}
         />
       </Space>
     </Layout>
