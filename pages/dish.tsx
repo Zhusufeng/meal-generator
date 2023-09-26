@@ -2,7 +2,7 @@ import { EditOutlined, ZoomInOutlined } from "@ant-design/icons";
 import { Button, Space, Table, notification } from "antd";
 import axios from "axios";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 import DishModal from "../components/DishModal";
 import Layout from "../components/Layout";
@@ -16,26 +16,8 @@ const Dish: React.FC = () => {
   const [isDishModalOpen, setIsDishModalOpen] = useState(false);
   const [isRecipeModalOpen, setIsRecipeModalOpen] = useState(false);
   const [dishId, setDishId] = useState(null);
-  const [dish, setDish] = useState(null);
   const [modalAction, setModalAction] = useState(ADD);
   const { data: session } = useSession();
-
-  useEffect(() => {
-    const getDish = async (id: string) => {
-      const result = await axios.get(`/api/dish/${id}`);
-      setDish(result.data.data);
-    };
-
-    // TODO handle error
-    if (dishId) {
-      getDish(dishId).catch(error => console.log(error));
-    } else {
-      setDish(null);
-    }
-    return () => {
-      setDish(null);
-    };
-  }, [dishId]);
 
   const {
     data: dishes,
@@ -132,14 +114,14 @@ const Dish: React.FC = () => {
       <DishModal
         modalAction={modalAction}
         isModalOpen={isDishModalOpen}
-        setIsModalOpen={handleDishModal}
-        dish={dish}
-        session={session as UserSession}
+        handleDishModal={handleDishModal}
+        dishId={dishId}
+        userId={(session as UserSession)?.user?.id}
       />
       <RecipeModal
         isModalOpen={isRecipeModalOpen}
         setIsModalOpen={setIsRecipeModalOpen}
-        dish={dish}
+        dishId={dishId}
       />
 
       <Space direction="vertical" size="middle" style={{ display: "flex" }}>

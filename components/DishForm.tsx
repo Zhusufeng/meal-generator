@@ -1,35 +1,44 @@
 import { Button, Checkbox, Form, Input } from "antd";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { mutate } from "swr";
 import { formatDishFieldsValue, transformPayload } from "../lib/dishHelpers";
 
 type Props = {
   modalAction: ModalAction;
-  setIsModalOpen: (value: boolean) => void;
-  dish: Dish | null;
-  session: UserSession;
+  handleDishModal: (value: boolean) => void;
+  dishId: string | null;
+  userId: string;
 };
 
 const DishForm: React.FC<Props> = props => {
-  const { modalAction, setIsModalOpen, dish, session } = props;
+  const { modalAction, handleDishModal, dishId, userId } = props;
   const [form] = Form.useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [dish, setDish] = useState(null);
 
   useEffect(() => {
-    if (dish && modalAction.action === "EDIT") {
-      const formattedDish = formatDishFieldsValue(dish);
+    const getDish = async (id: string) => {
+      const result = await axios.get(`/api/dish/${id}`);
+      const dishData = result.data.data;
+      setDish(dishData);
+      const formattedDish = formatDishFieldsValue(dishData);
       form.setFieldsValue(formattedDish);
+    };
+
+    if (dishId) {
+      // TODO handle error
+      getDish(dishId).catch(error => console.log(error));
     }
     return () => {
+      setDish(null);
       form.resetFields();
     };
-  }, [dish, modalAction, form]);
+  }, [dishId, form]);
 
   const onFinish = async (values: any) => {
     console.log("values:", values);
-
     setIsLoading(true);
-    const userId = session.user.id;
     const payload = transformPayload(values, userId);
     console.log("payload", payload);
     // TODO Handle errors
@@ -37,8 +46,7 @@ const DishForm: React.FC<Props> = props => {
     await modalAction.api(payload, dishId).catch(error => console.log(error));
     mutate("/api/dish");
     setIsLoading(false);
-    setIsModalOpen(false);
-    form.resetFields();
+    handleDishModal(false);
   };
 
   return (
