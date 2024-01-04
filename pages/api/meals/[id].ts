@@ -15,7 +15,7 @@ export default async function handler(
     case "GET":
       try {
         // Get a single meal (that is already created)
-        const result = await UserMeal.find({ _id: id });
+        const result = await UserMeal.findById(id);
         res.status(200).json({ success: true, data: result });
       } catch (error) {
         res.status(400).json({
