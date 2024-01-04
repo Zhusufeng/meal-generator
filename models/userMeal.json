@@ -2,6 +2,7 @@
   "_id": "user_meal_id_1",
   "userId": "user_id_1",
   "mealDate": "2023-07-05",
+  "mealType": "meal_type_id_1",
   "entrees": ["dish_id_1"],
   "sides": ["dish_id_2"],
   "createdAt": "2023-07-03",

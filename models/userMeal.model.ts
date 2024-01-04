@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import Dish from "./dish.model";
+import MealType from "./mealType.model";
 import User from "./user.model";
 
 const UserMealSchema = new mongoose.Schema({
@@ -8,6 +9,10 @@ const UserMealSchema = new mongoose.Schema({
     ref: User.modelName,
   },
   mealDate: Date,
+  mealType: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: MealType.modelName,
+  },
   entrees: [
     {
       type: mongoose.Schema.Types.ObjectId,
