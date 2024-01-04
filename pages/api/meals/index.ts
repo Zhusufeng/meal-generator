@@ -14,7 +14,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
-        // Get a single meal (that is already created)
+        // Get all of the user's meals for a date
         const result = await UserMeal.find({ userId, mealDate: date });
         res.status(200).json({ success: true, data: result });
       } catch (error) {
@@ -24,7 +24,26 @@ export default async function handler(
         });
       }
       break;
-
+    case "POST":
+      try {
+        const { userId, mealDate, mealType, entrees, sides } = req.body;
+        const userMeal = await UserMeal.create({
+          userId,
+          mealDate,
+          mealType,
+          entrees,
+          sides,
+          createdBy: userId,
+          updatedBy: userId,
+        });
+        res.status(201).json({ success: true, data: userMeal });
+      } catch (error) {
+        res.status(400).json({
+          success: false,
+          errorMessage: String(error),
+        });
+      }
+      break;
     default:
       const defaultErrorMessage = `Invalid method (${method}).`;
       res.status(400).json({
