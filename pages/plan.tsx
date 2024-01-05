@@ -9,7 +9,6 @@ const Plan: React.FC = () => {
   const { data: session } = useSession() as { data: UserSession | null };
   const [mealData, setMealData] = useState([]);
   useEffect(() => {
-    console.log("hi");
     const today = new Date();
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
@@ -23,6 +22,7 @@ const Plan: React.FC = () => {
     // Let's use this data for now (then update the API to return the data in this format!)
     const data = [
       {
+        mealId: "sadjif",
         date: "2024-01-04",
         name: "Lisa",
         breakfast: {
@@ -55,27 +55,71 @@ const Plan: React.FC = () => {
       title: "Breakfast",
       dataIndex: "breakfast",
       key: "breakfast",
+      render: value => {
+        const { entrees, sides } = value;
+        const entreesList = entrees.join(", ");
+        const sidesList = sides.join(", ");
+        return (
+          <div>
+            <div>Entrees: {entreesList}</div>
+            <div>Sides: {sidesList}</div>
+          </div>
+        );
+      },
     },
     {
       title: "Lunch",
       dataIndex: "lunch",
       key: "lunch",
+      render: value => {
+        const { entrees, sides } = value;
+        const entreesList = entrees.join(", ");
+        const sidesList = sides.join(", ");
+        return (
+          <div>
+            <div>Entrees: {entreesList}</div>
+            <div>Sides: {sidesList}</div>
+          </div>
+        );
+      },
     },
     {
       title: "Dinner",
       dataIndex: "dinner",
       key: "dinner",
+      render: value => {
+        const { entrees, sides } = value;
+        const entreesList = entrees.join(", ");
+        const sidesList = sides.join(", ");
+        return (
+          <div>
+            <div>Entrees: {entreesList}</div>
+            <div>Sides: {sidesList}</div>
+          </div>
+        );
+      },
     },
     {
       title: "Snack",
       dataIndex: "snack",
       key: "snack",
+      render: value => {
+        const { entrees, sides } = value;
+        const entreesList = entrees.join(", ");
+        const sidesList = sides.join(", ");
+        return (
+          <div>
+            <div>Entrees: {entreesList}</div>
+            <div>Sides: {sidesList}</div>
+          </div>
+        );
+      },
     },
   ];
 
   return (
     <Layout>
-      <Table columns={columns} />
+      <Table columns={columns} dataSource={mealData} rowKey="mealId" />
     </Layout>
   );
 };
