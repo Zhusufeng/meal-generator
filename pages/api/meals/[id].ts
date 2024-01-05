@@ -14,6 +14,7 @@ export default async function handler(
   switch (method) {
     case "GET":
       try {
+        console.log("id", id);
         // Get a single meal (that is already created)
         const result = await UserMeal.findById(id);
         res.status(200).json({ success: true, data: result });
