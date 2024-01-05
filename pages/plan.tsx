@@ -1,25 +1,37 @@
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
+import axios from "axios";
+import dayjs from "dayjs";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Layout from "../components/Layout";
 import MealTableCell from "../components/MealTableCell";
+
+const fetcher = (url: string) => axios.get(url).then(res => res.data);
 
 // TODO Keep view logic in a component!
 const Plan: React.FC = () => {
   const { data: session } = useSession() as { data: UserSession | null };
   const [mealData, setMealData] = useState([]);
+  const [todaysDate, setTodaysDate] = useState(null);
+
   useEffect(() => {
-    const today = new Date();
-    const year = today.getFullYear();
-    const month = today.getMonth() + 1;
-    const day = today.getDate();
-    const todaysDate = `${year}-${month}-${day}`;
+    const stringDate = dayjs().toISOString();
+    setTodaysDate(stringDate);
+  }, []);
 
-    if (!session) return;
+  const {
+    data: meals,
+    error: mealsError,
+    isLoading: isMealsLoading,
+  } = useSWR(
+    `/api/meals?userId=${session?.user?.id}&date=${todaysDate}`,
+    fetcher
+  );
+  console.log("meals", meals);
 
-    // Make API call to GET meals with todaysDate and userId
-
+  useEffect(() => {
     // Let's use this data for now (then update the API to return the data in this format!)
     const data = [
       {
