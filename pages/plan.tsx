@@ -1,39 +1,42 @@
 import { Table } from "antd";
 import type { ColumnsType } from "antd/es/table";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
-
-const columns: ColumnsType = [
-  {
-    title: "Date",
-    dataIndex: "date",
-    key: "date",
-  },
-  {
-    title: "Breakfast",
-    dataIndex: "breakfast",
-    key: "breakfast",
-  },
-  {
-    title: "Lunch",
-    dataIndex: "lunch",
-    key: "lunch",
-  },
-  {
-    title: "Dinner",
-    dataIndex: "dinner",
-    key: "dinner",
-  },
-  {
-    title: "Snack",
-    dataIndex: "snack",
-    key: "snack",
-  },
-];
 
 // TODO Keep view logic in a component!
 const Plan: React.FC = () => {
-  const { data: session } = useSession();
+  const { data: session } = useSession() as { data: UserSession | null };
+  const [mealData, setMealData] = useState([]);
+  useEffect(() => {
+    console.log("hi");
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth() + 1;
+    const day = today.getDate();
+    const todaysDate = `${year}-${month}-${day}`;
+
+    if (!session) return;
+
+    // Make API call to GET meals with todaysDate and userId
+
+    // Let's use this data for now (then update the API to return the data in this format!)
+    const data = [
+      {
+        date: "2024-01-04",
+        name: "Lisa",
+        breakfast: {
+          entrees: ["Scrambled Eggs"],
+          sides: ["Bacon"],
+        },
+        lunch: { entrees: ["Soup"], sides: ["Chips"] },
+        dinner: { entrees: ["Meatloaf"], sides: ["Broccoli"] },
+        snack: { entrees: [], sides: ["Brownies"] },
+      },
+    ];
+    setMealData(data);
+  }, [session]);
+
   if (!session) {
     return (
       <Layout>
@@ -41,6 +44,35 @@ const Plan: React.FC = () => {
       </Layout>
     );
   }
+
+  const columns: ColumnsType = [
+    {
+      title: "Date",
+      dataIndex: "date",
+      key: "date",
+    },
+    {
+      title: "Breakfast",
+      dataIndex: "breakfast",
+      key: "breakfast",
+    },
+    {
+      title: "Lunch",
+      dataIndex: "lunch",
+      key: "lunch",
+    },
+    {
+      title: "Dinner",
+      dataIndex: "dinner",
+      key: "dinner",
+    },
+    {
+      title: "Snack",
+      dataIndex: "snack",
+      key: "snack",
+    },
+  ];
+
   return (
     <Layout>
       <Table columns={columns} />
