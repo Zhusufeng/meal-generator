@@ -1,5 +1,7 @@
+import dayjs from "dayjs";
 import type { NextApiRequest, NextApiResponse } from "next";
 import dbConnect from "../../../lib/dbConnect";
+import Dish from "../../../models/dish.model";
 import UserMeal from "../../../models/userMeal.model";
 
 export default async function handler(
@@ -17,8 +19,23 @@ export default async function handler(
         // Get all of the user's meals for a date
         console.log("userId:", userId);
         console.log("date:", date);
-        // store date as  YYYY-MM-DD
-        const result = await UserMeal.find({ userId, mealDate: date });
+        const startDate = dayjs(date as string).startOf("day");
+        const endDate = startDate.endOf("day");
+        const result = await UserMeal.find({
+          userId,
+          mealDate: {
+            $gte: startDate.toISOString(),
+            $lt: endDate.toISOString(),
+          },
+        })
+          .populate("userId")
+          .populate("mealType")
+          .populate({
+            path: "entrees",
+            model: Dish.modelName,
+            select: "name",
+          });
+        // TODO Transform data into what frontend needs
         console.log("result", result);
         res.status(200).json({ success: true, data: result });
       } catch (error) {
