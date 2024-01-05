@@ -10,4 +10,6 @@ const FamilySchema = new mongoose.Schema({
   ],
 });
 
+FamilySchema.set("timestamps", true);
+
 export default mongoose.models.Family || mongoose.model("Family", FamilySchema);

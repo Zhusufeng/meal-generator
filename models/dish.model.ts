@@ -28,6 +28,8 @@ const DishSchema = new mongoose.Schema({
   },
 });
 
+DishSchema.set("timestamps", true);
+
 // Add an ascending index to the "name" field
 DishSchema.index({ name: 1 });
 

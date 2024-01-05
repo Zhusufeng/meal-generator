@@ -27,6 +27,8 @@ const UserMealSchema = new mongoose.Schema({
   ],
 });
 
+UserMealSchema.set("timestamps", true);
+
 UserMealSchema.index({ mealDate: 1, userId: 1 });
 
 export default mongoose.models.UserMeal ||
