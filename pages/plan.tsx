@@ -3,6 +3,7 @@ import type { ColumnsType } from "antd/es/table";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
+import MealTableCell from "../components/MealTableCell";
 
 // TODO Keep view logic in a component!
 const Plan: React.FC = () => {
@@ -57,14 +58,7 @@ const Plan: React.FC = () => {
       key: "breakfast",
       render: value => {
         const { entrees, sides } = value;
-        const entreesList = entrees.join(", ");
-        const sidesList = sides.join(", ");
-        return (
-          <div>
-            <div>Entrees: {entreesList}</div>
-            <div>Sides: {sidesList}</div>
-          </div>
-        );
+        return <MealTableCell entrees={entrees} sides={sides} />;
       },
     },
     {
@@ -73,14 +67,7 @@ const Plan: React.FC = () => {
       key: "lunch",
       render: value => {
         const { entrees, sides } = value;
-        const entreesList = entrees.join(", ");
-        const sidesList = sides.join(", ");
-        return (
-          <div>
-            <div>Entrees: {entreesList}</div>
-            <div>Sides: {sidesList}</div>
-          </div>
-        );
+        return <MealTableCell entrees={entrees} sides={sides} />;
       },
     },
     {
@@ -89,14 +76,7 @@ const Plan: React.FC = () => {
       key: "dinner",
       render: value => {
         const { entrees, sides } = value;
-        const entreesList = entrees.join(", ");
-        const sidesList = sides.join(", ");
-        return (
-          <div>
-            <div>Entrees: {entreesList}</div>
-            <div>Sides: {sidesList}</div>
-          </div>
-        );
+        return <MealTableCell entrees={entrees} sides={sides} />;
       },
     },
     {
@@ -105,14 +85,7 @@ const Plan: React.FC = () => {
       key: "snack",
       render: value => {
         const { entrees, sides } = value;
-        const entreesList = entrees.join(", ");
-        const sidesList = sides.join(", ");
-        return (
-          <div>
-            <div>Entrees: {entreesList}</div>
-            <div>Sides: {sidesList}</div>
-          </div>
-        );
+        return <MealTableCell entrees={entrees} sides={sides} />;
       },
     },
   ];
