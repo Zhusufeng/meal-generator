@@ -35,20 +35,43 @@ const Plan: React.FC = () => {
     // Let's use this data for now (then update the API to return the data in this format!)
     const data = [
       {
-        mealId: "sadjif",
         date: "2024-01-04",
         name: "Lisa",
         breakfast: {
+          mealId: "100",
           entrees: ["Scrambled Eggs"],
           sides: ["Bacon"],
         },
-        lunch: { entrees: ["Soup"], sides: ["Chips"] },
-        dinner: { entrees: ["Meatloaf"], sides: ["Broccoli"] },
-        snack: { entrees: [], sides: ["Brownies"] },
+        lunch: { mealId: "101", entrees: ["Soup"], sides: ["Chips"] },
+        dinner: { mealId: "102", entrees: ["Meatloaf"], sides: ["Broccoli"] },
+        snack: { mealId: "103", entrees: [], sides: ["Brownies"] },
       },
     ];
+    // Idea for family
+    // const dataFamily = [
+    //   {
+    //     date: "2024-01-04",
+    //     members: [
+    //       {
+    //         name: "Lisa",
+    //         breakfast: {
+    //           mealId: "100",
+    //           entrees: ["Scrambled Eggs"],
+    //           sides: ["Bacon"],
+    //         },
+    //         lunch: { mealId: "101", entrees: ["Soup"], sides: ["Chips"] },
+    //         dinner: {
+    //           mealId: "102",
+    //           entrees: ["Meatloaf"],
+    //           sides: ["Broccoli"],
+    //         },
+    //         snack: { mealId: "103", entrees: [], sides: ["Brownies"] },
+    //       },
+    //     ],
+    //   },
+    // ];
     setMealData(data);
-  }, [session]);
+  }, []);
 
   if (!session) {
     return (
@@ -104,7 +127,7 @@ const Plan: React.FC = () => {
 
   return (
     <Layout>
-      <Table columns={columns} dataSource={mealData} rowKey="mealId" />
+      <Table columns={columns} dataSource={mealData} rowKey="date" />
     </Layout>
   );
 };
