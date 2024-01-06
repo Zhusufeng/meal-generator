@@ -3,31 +3,32 @@ import Dish from "./dish.model";
 import MealType from "./mealType.model";
 import User from "./user.model";
 
-const UserMealSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: User.modelName,
-  },
-  mealDate: Date,
-  mealType: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: MealType.modelName,
-  },
-  entrees: [
-    {
+const UserMealSchema = new mongoose.Schema(
+  {
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Dish.modelName,
+      ref: User.modelName,
     },
-  ],
-  sides: [
-    {
+    mealDate: Date,
+    mealType: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: Dish.modelName,
+      ref: MealType.modelName,
     },
-  ],
-});
-
-UserMealSchema.set("timestamps", true);
+    entrees: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Dish.modelName,
+      },
+    ],
+    sides: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Dish.modelName,
+      },
+    ],
+  },
+  { timestamps: true }
+);
 
 UserMealSchema.index({ mealDate: 1, userId: 1 });
 
